@@ -7,31 +7,34 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-let isAutomaticClient = false;
+let isAutonomousClient = false; // boolean that tells if the client is autonomous or adjustable by the user
 
 socket.on('id', (msg) => {
     console.log(`You are player ${msg.id}\n`)
     if (msg.id === 2) {
-        rl.question('Automatic? (y/n)', (answer) => {
-            if (answer === 'y') {
-                isAutomaticClient = true;
+        // Player 2 can be autonomous or manual
+        rl.question('Would you like to play autonomously? (y/n)', (answer) => {
+            if (answer.toLowerCase() === 'y') {
+                isAutonomousClient = true;
                 socket.emit('ready', { message: true });
             }
             else {
-                isAutomaticClient = false;
+                isAutonomousClient = false;
                 socket.emit('ready', { message: true });
             }
         });
     }
     else {
-        isAutomaticClient = true;
+        // Player 1 is always autonomous
+        isAutonomousClient = true;
         socket.emit('ready', { message: true });
     }
 });
 
 socket.on('init', (msg) => {
-    if (isAutomaticClient) {
-        socket.emit('init', { initValue: 57 });
+    if (isAutonomousClient) {
+        const initValue = Math.floor(Math.random() * (10000 - 3 + 1)) + 3; // initial value can be a random integer in the range 3...10000.
+        socket.emit('init', { initValue: initValue });
     }
     else {
         rl.question('Initialize the game with a number:', (answer) => {
@@ -45,7 +48,7 @@ socket.on('status', (msg) => {
 
     let value;
 
-    if (isAutomaticClient) {
+    if (isAutonomousClient) {
         if (msg.num % 3 === 0) {
             value = 0;
         }

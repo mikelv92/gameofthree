@@ -4,19 +4,11 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "startdev": "nodemon ./bin/www",
+        "startdev": "nodemon ./app",
         "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mikelv92/gameofthree.git"
     },
     "author": "Mikel Vuka",
     "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/mikelv92/gameofthree/issues"
-    },
-    "homepage": "https://github.com/mikelv92/gameofthree#readme",
     "dependencies": {
         "express": "^4.17.1",
         "morgan": "^1.9.1",
